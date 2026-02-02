@@ -28,3 +28,23 @@ fun main() {
     handleResult(error)
     handleResult(loading)
 }
+
+sealed class OrderState {
+
+    object Created : OrderState()
+    object Paid : OrderState()
+    object Shipped : OrderState()
+
+    data class Cancelled(val reason: String) : OrderState()
+}
+
+fun handleOrder(state: OrderState) {
+    when (state) {
+        OrderState.Created -> println("Заказ создан")
+        OrderState.Paid -> println("Заказ оплачен")
+        OrderState.Shipped -> println("Заказ отправлен")
+        is OrderState.Cancelled ->
+            println("Заказ отменён: ${state.reason}")
+    }
+}
+
